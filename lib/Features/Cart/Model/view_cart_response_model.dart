@@ -1,7 +1,7 @@
 class CartResponseModel {
   String? message;
   List<CartItems>? cartItems;
-  double? totalCartPrice;
+  dynamic totalCartPrice;
 
   CartResponseModel({this.message, this.cartItems, this.totalCartPrice});
 
