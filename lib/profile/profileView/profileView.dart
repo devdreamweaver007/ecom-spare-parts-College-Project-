@@ -4,7 +4,7 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/profile/profileView/widgets/editprofile.dart';
-import 'package:spareproject/profile/profileView/widgets/order.dart';
+import 'package:spareproject/profile/profileView/widgets/Adress.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
 
 class Profileview extends StatefulWidget {
@@ -46,73 +46,77 @@ class _ProfileviewState extends State<Profileview> {
       appBar: AppBar(
         backgroundColor: whiteColor,
         title: Text(
-                  'PROFILE',
-                  style: authText(24, blackColor, FontWeight.bold),
-                ),
+          'PROFILE',
+          style: authText(24, blackColor, FontWeight.bold),
+        ),
       ),
       backgroundColor: whiteColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 15,
-            ),
-            CircleAvatar(
-              radius: 55,
-              backgroundImage: AssetImage('bgImage.jpg'.ImagePath),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: whiteColor, boxShadow: [
-                BoxShadow(color: Colors.grey,
-                 blurRadius: 4,
-                 spreadRadius: .3,
-                 offset: Offset(0, -1))
-              ]),
-              child: Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: profileitemName.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          switch (index) {
-                            case 0:
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Editprofile(),
-                                  ));
-                              break;
-                            case 1:
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Order(),
-                                  ));
-                              break;
-                          }
-                        },
-                        leading: Icon(
-                          profileitemIcon[index],
-                          size: 25,
-                          color: blackColor,
-                        ),
-                        title: Text(
-                          profileitemName[index],
-                          style: authText(16, blackColor, FontWeight.w500),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 15,
               ),
-            )
-          ],
+              CircleAvatar(
+                radius: 55,
+                backgroundImage: AssetImage('bgImage.jpg'.ImagePath),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(color: whiteColor, boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 4,
+                      spreadRadius: .3,
+                      offset: Offset(0, -1))
+                ]),
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: profileitemName.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            switch (index) {
+                              case 0:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Editprofile(),
+                                    ));
+                                break;
+                              case 3:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AdressView(),
+                                    ));
+                                break;
+                            }
+                          },
+                          leading: Icon(
+                            profileitemIcon[index],
+                            size: 25,
+                            color: blackColor,
+                          ),
+                          title: Text(
+                            profileitemName[index],
+                            style: authText(16, blackColor, FontWeight.w500),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
