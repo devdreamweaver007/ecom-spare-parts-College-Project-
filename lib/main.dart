@@ -7,11 +7,16 @@ import 'package:spareproject/Features/Cart/ViewModel/cart_view_model.dart';
 import 'package:spareproject/Features/Home/HomeviewModel/home_view_model.dart';
 import 'package:spareproject/Features/SplashScreen/SplashscreenView.dart';
 import 'package:spareproject/Features/brands/view_model/brand_view_model.dart';
+import 'package:spareproject/profile/profileView/profileView.dart';
+import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProVieModel(),
+        ),
         ChangeNotifierProvider(create: (context) => Authviewmodel()),
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
         ChangeNotifierProvider(create: (context) => BrandViewModel()),
