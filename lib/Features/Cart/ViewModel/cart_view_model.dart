@@ -7,14 +7,13 @@ import 'package:spareproject/Features/Cart/Repository/repository.dart';
 class CartViewModel extends ChangeNotifier {
   CartRepository cartRepo = CartRepository();
   CartResponseModel? cartItems;
-  double? price;
+  dynamic price;
 
   getAllcarts () async {
     await cartRepo.viewcart().then((value){
     if(value?.message !=null){
       cartItems = value;
       price = cartItems?.totalCartPrice ;
-      print(price);
     }
     });
     notifyListeners();

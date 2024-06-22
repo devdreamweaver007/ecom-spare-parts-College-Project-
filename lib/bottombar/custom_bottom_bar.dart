@@ -4,6 +4,7 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Features/Cart/view/cart_screen.dart';
 import 'package:spareproject/Features/Home/Home_View/homeView.dart';
 import 'package:spareproject/Features/brands/view/brandsScreen.dart';
+import 'package:spareproject/profile/profileView/profileView.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     HomeView(), // Screen for index 0
     CartScreen(),// Screen for index 1
     AllBrandsScreen(),  // Screen for index 2
-    Container(color: authColor), // Screen for index 3 Screen for index 4
+    Profileview() // Screen for index 3 Screen for index 4
   ];
 
   @override

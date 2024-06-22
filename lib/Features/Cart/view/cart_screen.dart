@@ -6,6 +6,7 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Constents/loader.dart';
 import 'package:spareproject/Extention/extension.dart';
+import 'package:spareproject/Features/Address/view/address_screen.dart';
 import 'package:spareproject/Features/Cart/ViewModel/cart_view_model.dart';
 
 class CartScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+    cartViewModel.getAllcarts();
+    print(cartViewModel.cartItems?.cartItems?.length);
     Timer(Duration(seconds: 2), (){
       setState(() {
         loading = false;
@@ -41,10 +44,13 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
-        child: cartViewModel.cartItems == null && loading == true ?
-        Center(
-          child: showLoadingSpin(),
-        ): cartViewModel.cartItems == null && loading == false ?
+        child: cartViewModel.cartItems?.cartItems == null && loading == true ?
+        Padding(
+          padding: const EdgeInsets.only(top: 400),
+          child: Center(
+            child: showLoadingSpin(),
+          ),
+        ): cartViewModel.cartItems?.totalCartPrice == 0 && loading == false ?
         Center(
           child: Image.asset('noProducts.jpg'.ImagePath),
         ):
@@ -59,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
                 itemBuilder: (context, index) {
                   var cart = cartViewModel.cartItems?.cartItems?[index];
                   int quantity = cart?.quantity ?? 0;
-                  double prices =
+                  dynamic prices =
                       double.parse(cart?.part?.price ?? "0") * quantity;
                   void updateQuantity(int quantity) {
                     setState(() {
@@ -193,7 +199,7 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      bottomSheet:cartViewModel.cartItems !=null && loading == false ? Container(
+      bottomSheet:cartViewModel.cartItems?.totalCartPrice != 0 && loading == false ? Container(
         height: MediaQuery.of(context).size.width * .2,
         decoration: BoxDecoration(color: whiteColor, boxShadow: [
           BoxShadow(
@@ -207,21 +213,26 @@ class _CartScreenState extends State<CartScreen> {
           child: Row(
             children: [
               Text(
-                "TP: ₹ ${cartViewModel.price ?? "0"}",
+                "TP: ₹ ${cartViewModel.price ?? "0.0"}",
                 style: getFonts(15, Colors.black, FontWeight.bold),
               ),
               Spacer(),
-              Container(
-                width: MediaQuery.of(context).size.width * .4,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: buttonColor,
-                ),
-                child: Center(
-                  child: Text(
-                    "Checkout",
-                    style: getFonts(14, Colors.white, FontWeight.w600),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CheckoutScreen(totalPrice: cartViewModel.price,)));
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * .4,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: buttonColor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Checkout",
+                      style: getFonts(14, Colors.white, FontWeight.w600),
+                    ),
                   ),
                 ),
               )
