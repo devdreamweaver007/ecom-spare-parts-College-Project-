@@ -43,30 +43,17 @@ class _ProfileviewState extends State<Profileview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: whiteColor,
+        title: Text(
+                  'PROFILE',
+                  style: authText(24, blackColor, FontWeight.bold),
+                ),
+      ),
       backgroundColor: whiteColor,
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25),
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 30,
-                      )),
-                ),
-                SizedBox(
-                  width: 100,
-                ),
-                Text(
-                  'Profile',
-                  style: authText(24, blackColor, FontWeight.bold),
-                ),
-              ],
-            ),
             SizedBox(
               height: 15,
             ),
@@ -75,53 +62,54 @@ class _ProfileviewState extends State<Profileview> {
               backgroundImage: AssetImage('bgImage.jpg'.ImagePath),
             ),
             SizedBox(
-              height: 25,
+              height: 50,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Container(
-                decoration: BoxDecoration(color: whiteColor, boxShadow: [
-                  BoxShadow(color: Colors.grey, offset: Offset.zero)
-                ]),
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: profileitemName.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            switch (index) {
-                              case 0:
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Editprofile(),
-                                    ));
-                                break;
-                              case 1:
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Order(),
-                                    ));
-                                break;
-                            }
-                          },
-                          leading: Icon(
-                            profileitemIcon[index],
-                            size: 25,
-                            color: blackColor,
-                          ),
-                          title: Text(
-                            profileitemName[index],
-                            style: authText(16, blackColor, FontWeight.w500),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(color: whiteColor, boxShadow: [
+                BoxShadow(color: Colors.grey,
+                 blurRadius: 4,
+                 spreadRadius: .3,
+                 offset: Offset(0, -1))
+              ]),
+              child: Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: profileitemName.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {
+                          switch (index) {
+                            case 0:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Editprofile(),
+                                  ));
+                              break;
+                            case 1:
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Order(),
+                                  ));
+                              break;
+                          }
+                        },
+                        leading: Icon(
+                          profileitemIcon[index],
+                          size: 25,
+                          color: blackColor,
+                        ),
+                        title: Text(
+                          profileitemName[index],
+                          style: authText(16, blackColor, FontWeight.w500),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             )
           ],
