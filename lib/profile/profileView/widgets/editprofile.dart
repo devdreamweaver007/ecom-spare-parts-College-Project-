@@ -31,7 +31,6 @@ class _EditprofileState extends State<Editprofile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final proviewmodel = Provider.of<ProVieModel>(context, listen: false);
     proviewmodel.getProfil();
@@ -50,7 +49,7 @@ class _EditprofileState extends State<Editprofile> {
         backgroundColor: whiteColor,
         title: Text(
           'Edit Profile',
-          style: authText(24, blackColor, FontWeight.bold),
+          style: authText(16, blackColor, FontWeight.bold),
         ),
       ),
       backgroundColor: whiteColor,
@@ -64,20 +63,23 @@ class _EditprofileState extends State<Editprofile> {
                     height: 110,
                     child: Stack(children: [
                       CircleAvatar(
-                        maxRadius: 45,
-                        backgroundImage: _image == null
-                            ? AssetImage('cars.jpg'
-                                .ImagePath) // Adjust the asset path accordingly
-                            : FileImage(_image!),
+                        maxRadius: 55,
+                        backgroundImage: _image == null && proViewmodel.profileList?.profileImage == null
+                            ? AssetImage('profile.png'
+                                .ImagePath)
+                            :
+                           _image == null && proViewmodel.profileList?.profileImage!= null?
+                            NetworkImage(proViewmodel.profileList?.profileImage ?? "") :
+                             FileImage(_image!),
                       ),
                       Positioned(
-                          bottom: 10,
+                          bottom: 5,
                           right: 0,
                           child: IconButton(
                               onPressed: pickImage,
                               icon: Icon(
                                 Icons.add_a_photo,
-                                color: buttonColor,
+                                color: blackColor,
                               )))
                     ])),
               ),
@@ -94,7 +96,7 @@ class _EditprofileState extends State<Editprofile> {
                   controller: proViewmodel.namecontroller,
                   decoration: InputDecoration(
                       label: Text(
-                        proViewmodel.profileList?.name ?? '',
+                        'Name',
                         style: authText(14, Colors.black, FontWeight.w300),
                       ),
                       border: OutlineInputBorder(
@@ -113,6 +115,7 @@ class _EditprofileState extends State<Editprofile> {
                 child: TextField(
                   controller: proViewmodel.emailcontroller,
                   decoration: InputDecoration(
+                    label: Text("Email"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6))),
                 ),
@@ -133,6 +136,7 @@ class _EditprofileState extends State<Editprofile> {
                   maxLines: 7,
                   controller: proViewmodel.adresscontroller,
                   decoration: InputDecoration(
+                    label: Text("Address"),
                     hintText: proViewmodel.profileList?.addressLine ?? '',
                     hintStyle: authText(16, blackColor, FontWeight.w500),
                     border: OutlineInputBorder(
@@ -142,12 +146,13 @@ class _EditprofileState extends State<Editprofile> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Center(
                 child: InkWell(
                   onTap: () {
                     proViewmodel.editProfile(
+                      profileImage: _image,
                         context: context,
                         name: proViewmodel.namecontroller.text,
                         email: proViewmodel.emailcontroller.text,
@@ -164,7 +169,7 @@ class _EditprofileState extends State<Editprofile> {
                       child: Text(
                         'Save Changes',
                         style: authText(
-                            size.width * 0.035, whiteColor, FontWeight.w600),
+                            14, whiteColor, FontWeight.bold),
                       ),
                     ),
                   ),

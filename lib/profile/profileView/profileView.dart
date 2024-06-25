@@ -3,9 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
+import 'package:spareproject/Features/Cart/view/cart_screen.dart';
+import 'package:spareproject/Features/checkout/view/orders_view.dart';
+import 'package:spareproject/profile/profileView/widgets/Address.dart';
 import 'package:spareproject/profile/profileView/widgets/editprofile.dart';
-import 'package:spareproject/profile/profileView/widgets/Adress.dart';
+import 'package:spareproject/profile/profileView/widgets/logout_popup.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
+import 'package:spareproject/sharedPrefrences/sharedPreferences.dart';
 
 class Profileview extends StatefulWidget {
   const Profileview({super.key});
@@ -17,8 +21,8 @@ class Profileview extends StatefulWidget {
 List<String> profileitemName = [
   'Edit Profile',
   'Cart',
-  'Order',
-  'Adress',
+  'My Orders',
+  'Address',
   'More',
   'Logout'
 ];
@@ -34,7 +38,6 @@ List<dynamic> profileitemIcon = [
 class _ProfileviewState extends State<Profileview> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final proviewModel = Provider.of<ProVieModel>(context, listen: false);
     proviewModel.getProfil();
@@ -42,6 +45,7 @@ class _ProfileviewState extends State<Profileview> {
 
   @override
   Widget build(BuildContext context) {
+    final proviewModel = Provider.of<ProVieModel>(context,);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whiteColor,
@@ -59,21 +63,49 @@ class _ProfileviewState extends State<Profileview> {
                 height: 15,
               ),
               CircleAvatar(
-                radius: 55,
-                backgroundImage: AssetImage('bgImage.jpg'.ImagePath),
+  radius: 60,
+  backgroundColor: authColor,
+  child: CircleAvatar(
+    radius: 55,
+    child: ClipOval(
+      child: proviewModel.profileList?.profileImage != null
+          ? Image.network(
+              proviewModel.profileList?.profileImage ?? "",
+              fit: BoxFit.cover,
+              width: 110,
+              height: 110,
+            )
+          : Image.asset(
+              'profile.png'.ImagePath,
+              fit: BoxFit.cover,
+              width: 110,
+              height: 110,
+            ),
+    ),
+  ),
+),
+
+              SizedBox(height: 10,),
+              Center(
+                child: Text(proviewModel.namecontroller.text ?? "User",style: getFonts(15, Colors.black, FontWeight.w700),),
               ),
               SizedBox(
                 height: 50,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: whiteColor, boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 4,
-                      spreadRadius: .3,
-                      offset: Offset(0, -1))
-                ]),
+             Container(
+  width: MediaQuery.of(context).size.width,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight: Radius.circular(12)),
+    color: whiteColor,
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        blurRadius: 4,
+        spreadRadius: 0.3,
+        offset: Offset(0, -6),
+      )
+    ],
+  ),
                 child: Column(
                   children: [
                     ListView.builder(
@@ -98,6 +130,16 @@ class _ProfileviewState extends State<Profileview> {
                                       builder: (context) => AdressView(),
                                     ));
                                 break;
+                                case 5:
+                                logoutPopUp(context, (){
+                                  removeToken(context: context);
+                                });
+                                break;
+                                case 2:
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> MyordersScreen()));
+                                break;
+                                case 1:
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
                             }
                           },
                           leading: Icon(

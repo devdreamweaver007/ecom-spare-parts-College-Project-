@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:spareproject/Constents/colors.dart';
+import 'package:spareproject/Constents/flush_custom.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Features/Authentication/AuthViewModel/authViewModel.dart';
-import 'package:spareproject/Features/Authentication/Authview/SignIn/Login.dart';
 
 class OtpView extends StatefulWidget {
   const OtpView({
@@ -19,33 +21,68 @@ class OtpView extends StatefulWidget {
 class _OtpViewState extends State<OtpView> {
   String otp = "";
   TextEditingController otpController = TextEditingController();
+  Timer? _timer;
+  int _start = 30;  // Initial countdown time in seconds
+  bool _isButtonDisabled = false;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    setState(() {
+      _isButtonDisabled = true;
+      _start = _start + 30;  // Increment the countdown time by 30 seconds
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        if (_start <= 0) {
+          timer.cancel();
+          _isButtonDisabled = false;
+        } else {
+          _start--;
+        }
+      });
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<Authviewmodel>(context);
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: authColor,
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: whiteColor,
+              )),
+            Text('OTP Verification Code',
+                style: otpFont(16, whiteColor, FontWeight.w300))
+          ],
+        ),
+      ),
       backgroundColor: authColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 42, left: 18),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: whiteColor,
-                      )),
-                  Text('OTP Verification Code',
-                      style: otpFont(16, whiteColor, FontWeight.w300))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 32, top: 85),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -73,41 +110,36 @@ class _OtpViewState extends State<OtpView> {
                     child: Row(
                       children: [
                         Text(
-                          'Already have an account?',
+                         _start !=0?
+                          'Resend OTP in $_start':
+                          "",
                           style: authText(14, whiteColor, FontWeight.w500),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginView(),
-                                ));
+                          onPressed: _isButtonDisabled ? null : () {
+                            _startTimer();
+                            
                           },
                           child: Text(
-                            ' Resend?',
-                            style: authText(14, Colors.blue, FontWeight.bold),
+                            ' Resend OTP',
+                            style: authText(14, _isButtonDisabled? Colors.grey : Colors.blue, FontWeight.bold),
                           ),
-                        ),
-                        SizedBox(
-                          width: 60,
-                        ),
-                        Text(
-                          '00:49',
-                          style: authText(14, whiteColor, FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 64,left: 62,right: 62),
+                    padding: const EdgeInsets.only(top: 64, left: 62, right: 62),
                     child: Center(
                       child: InkWell(
                         onTap: () {
+                          otp.length != 4?
+                          showFlushBarCustom(context: context, color: Colors.red, message: "Please Fill The OTP",icon: Icons.close):
                           authViewModel.otpVerify(
-                              context: context,
-                              email: authViewModel.emailcontroller.text,
-                              otp: otp);
+                            context: context,
+                            email: authViewModel.emailcontroller.text,
+                            otp: otp,
+                          );
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.056,
@@ -115,15 +147,16 @@ class _OtpViewState extends State<OtpView> {
                           decoration: BoxDecoration(
                             color: buttonColor,
                             borderRadius: BorderRadius.circular(
-                                MediaQuery.of(context).size.width * 0.03),
+                              MediaQuery.of(context).size.width * 0.03),
                           ),
                           child: Center(
                             child: Text(
                               'Send OTP',
                               style: authText(
-                                  MediaQuery.of(context).size.width * 0.035,
-                                  whiteColor,
-                                  FontWeight.w600),
+                                MediaQuery.of(context).size.width * 0.035,
+                                whiteColor,
+                                FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),

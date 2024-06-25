@@ -7,7 +7,7 @@ import 'package:spareproject/Features/Cart/ViewModel/cart_view_model.dart';
 import 'package:spareproject/Features/Home/HomeviewModel/home_view_model.dart';
 import 'package:spareproject/Features/SplashScreen/SplashscreenView.dart';
 import 'package:spareproject/Features/brands/view_model/brand_view_model.dart';
-import 'package:spareproject/profile/profileView/profileView.dart';
+import 'package:spareproject/Features/checkout/ViewModel/checkout_viewmodel.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
 
 void main() {
@@ -22,6 +22,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => BrandViewModel()),
         ChangeNotifierProvider(create: (context) => CartViewModel()),
         ChangeNotifierProvider(create: (context) => AddressViewModel()),
+        ChangeNotifierProvider(create: (context) => CheckoutViewModel()),
       ],
       child: const MyApp(),
     ),

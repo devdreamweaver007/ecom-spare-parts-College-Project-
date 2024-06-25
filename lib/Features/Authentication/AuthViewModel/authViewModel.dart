@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spareproject/Constents/flush_custom.dart';
 import 'package:spareproject/Features/Authentication/AuthRepo/auth_repositery.dart';
 import 'package:spareproject/Features/Authentication/Authview/Otp/otpVerificationView.dart';
 import 'package:spareproject/Features/Authentication/Authview/SignIn/Login.dart';
@@ -26,6 +27,9 @@ class Authviewmodel extends ChangeNotifier {
         if (value?.status == true) {
           Navigator.of(context).push(MaterialPageRoute(
 builder: (context) => OtpView()));
+showFlushBarCustom(context: context, color: Colors.green, message: "OTP Sent Success",icon: Icons.check_circle);
+        }else{
+          showFlushBarCustom(context: context, color: Colors.red, message: "User With This Email Already Exist",icon: Icons.close);
         }
       },
     );
@@ -38,15 +42,19 @@ builder: (context) => OtpView()));
       required BuildContext context}) async {
     await authrepo.verifyOtp(email: email, otp: otp).then(
       (value) {
-        print("<<<<${value?.message}>>>>");
+        if(value?.status == true){
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
 builder: (context) => LoginView()), (Route route)=>false);
+showFlushBarCustom(context: context, color: Colors.green, message: "Verified",icon: Icons.check_circle);
+        }else{
+          showFlushBarCustom(context: context, color: Colors.red, message: "OTP Is Inncorrect",icon: Icons.close);
+        }
       },
     );
     notifyListeners();
   }
 
-  Future logIn(
+   logIn(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -56,7 +64,9 @@ builder: (context) => LoginView()), (Route route)=>false);
         storeToken(value?.token ?? "");
         storeUserId(value?.id ?? 0);
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-builder: (context) => BottomNavBar()), (Route route)=>false);
+builder: (context) => BottomNavBar()), (Route route) => false);
+        }else{
+          showFlushBarCustom(context: context, color: Colors.red, message: "user not found",icon: Icons.close);
         }
       },
     );

@@ -5,6 +5,8 @@ import 'package:spareproject/Constents/flush_custom.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/Features/Address/Viewmodel/address_view_model.dart';
+import 'package:spareproject/Features/checkout/ViewModel/checkout_viewmodel.dart';
+import 'package:spareproject/profile/profileView/widgets/Address.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final dynamic totalPrice;
@@ -26,6 +28,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final addressviewmodel = Provider.of<AddressViewModel>(context);
+    final checkoutViewModel = Provider.of<CheckoutViewModel>(context);
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -88,9 +91,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               onTap: () {
                                 
                               },
-                              child: Text(
-                               "ADD ADDRESS NOW ->",
-                                style: getFonts(15, Colors.red, FontWeight.w500),
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> AdressView()));
+                                },
+                                child: Text(
+                                 "ADD ADDRESS NOW ->",
+                                  style: getFonts(15, Colors.red, FontWeight.w500),
+                                ),
                               ),
                             )
                           ],
@@ -148,7 +156,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             child: InkWell(
               onTap: (){
                 if(addressviewmodel.address.isNotEmpty){
-
+                  checkoutViewModel.checkout(context: context);
                 }else{
                   showFlushBarCustom(context: context, color: Colors.red, message: "Please Add Address");
                 }

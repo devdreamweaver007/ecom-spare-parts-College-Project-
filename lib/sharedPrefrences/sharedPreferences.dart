@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spareproject/Features/Authentication/Authview/SignIn/Login.dart';
 
 Future storeToken(String token) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -10,9 +12,12 @@ Future storeUserId(int userId) async {
   pref.setInt('userId', userId);
 }
 
-Future removeToken() async {
+Future removeToken({required BuildContext context}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.remove('token');
+  pref.remove('userId');
+  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+builder: (context) => LoginView()), (Route route)=>false);
 }
 
 Future getToken() async {

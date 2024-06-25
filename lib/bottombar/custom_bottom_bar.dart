@@ -16,12 +16,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   List<Widget> _screens = [
-    HomeView(), // Screen for index 0
-    CartScreen(),// Screen for index 1
-    AllBrandsScreen(),  // Screen for index 2
-    Profileview() // Screen for index 3 Screen for index 4
+    HomeView(),
+    CartScreen(),
+    AllBrandsScreen(), 
+    Profileview() 
   ];
+   @override
+  void initState() {
+    super.initState();
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
