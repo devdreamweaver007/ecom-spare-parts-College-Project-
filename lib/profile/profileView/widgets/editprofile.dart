@@ -7,6 +7,7 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
+import 'package:spareproject/sharedPrefrences/sharedPreferences.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -17,6 +18,8 @@ class Editprofile extends StatefulWidget {
 
 final ImagePicker _imagePicker = ImagePicker();
 File? _image;
+String? token;
+int? id;
 
 class _EditprofileState extends State<Editprofile> {
   Future<void> pickImage() async {
@@ -64,13 +67,16 @@ class _EditprofileState extends State<Editprofile> {
                     child: Stack(children: [
                       CircleAvatar(
                         maxRadius: 55,
-                        backgroundImage: _image == null && proViewmodel.profileList?.profileImage == null
-                            ? AssetImage('profile.png'
-                                .ImagePath)
-                            :
-                           _image == null && proViewmodel.profileList?.profileImage!= null?
-                            NetworkImage(proViewmodel.profileList?.profileImage ?? "") :
-                             FileImage(_image!),
+                        backgroundImage: _image == null &&
+                                proViewmodel.profileList?.profileImage == null
+                            ? AssetImage('profile.png'.ImagePath)
+                            : _image == null &&
+                                    proViewmodel.profileList?.profileImage !=
+                                        null
+                                ? NetworkImage(
+                                    proViewmodel.profileList?.profileImage ??
+                                        "")
+                                : FileImage(_image!),
                       ),
                       Positioned(
                           bottom: 5,
@@ -115,7 +121,7 @@ class _EditprofileState extends State<Editprofile> {
                 child: TextField(
                   controller: proViewmodel.emailcontroller,
                   decoration: InputDecoration(
-                    label: Text("Email"),
+                      label: Text("Email"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6))),
                 ),
@@ -151,12 +157,16 @@ class _EditprofileState extends State<Editprofile> {
               Center(
                 child: InkWell(
                   onTap: () {
-                    proViewmodel.editProfile(
-                      profileImage: _image,
-                        context: context,
-                        name: proViewmodel.namecontroller.text,
-                        email: proViewmodel.emailcontroller.text,
-                        adress: proViewmodel.adresscontroller.text);
+                    if (token != null && id != null) {
+                      proViewmodel.editProfile(
+                          profileImage: _image,
+                          context: context,
+                          name: proViewmodel.namecontroller.text,
+                          email: proViewmodel.emailcontroller.text,
+                          adress: proViewmodel.adresscontroller.text);
+                    } else {
+                      checkIdandToken(context);
+                    }
                   },
                   child: Container(
                     height: size.height * 0.056,
@@ -168,8 +178,7 @@ class _EditprofileState extends State<Editprofile> {
                     child: Center(
                       child: Text(
                         'Save Changes',
-                        style: authText(
-                            14, whiteColor, FontWeight.bold),
+                        style: authText(14, whiteColor, FontWeight.bold),
                       ),
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/Features/Authentication/Authview/SignIn/Login.dart';
 import 'package:spareproject/Features/Authentication/Authview/SignUp/signUpView.dart';
+import 'package:spareproject/bottombar/custom_bottom_bar.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
@@ -33,7 +34,7 @@ class _OnBoardState extends State<OnBoard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.width *.2,
+                height: MediaQuery.of(context).size.width * .2,
               ),
               Padding(
                 padding: EdgeInsets.only(left: mediaQuery.size.width * 0.05),
@@ -50,7 +51,7 @@ class _OnBoardState extends State<OnBoard> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.width *.9,
+                height: MediaQuery.of(context).size.width * .9,
               ),
               Center(
                 child: Column(
@@ -78,39 +79,46 @@ class _OnBoardState extends State<OnBoard> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 12,),
+                    SizedBox(
+                      height: 12,
+                    ),
                     InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignUpView(),
-                        ));
-                  },
-                  child: Container(
-                    height: mediaQuery.size.height * 0.06,
-                    width: mediaQuery.size.width * 0.7,
-                    decoration: BoxDecoration(
-                        color: cyanColor,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'SIGN UP',
-                        style: authText(14, Colors.black, FontWeight.w600),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpView(),
+                            ));
+                      },
+                      child: Container(
+                        height: mediaQuery.size.height * 0.06,
+                        width: mediaQuery.size.width * 0.7,
+                        decoration: BoxDecoration(
+                            color: cyanColor,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Center(
+                          child: Text(
+                            'SIGN UP',
+                            style: authText(14, Colors.black, FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
                   ],
                 ),
               ),
-              
               Padding(
                 padding: EdgeInsets.only(
                     left: mediaQuery.size.width * 0.275,
                     top: mediaQuery.size.height * 0.01),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavBar(),
+                          ));
+                    },
                     child: Text(
                       'Get Started as a Guest >>',
                       style: authText(14, whiteColor, FontWeight.w500),

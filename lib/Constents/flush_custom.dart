@@ -15,9 +15,11 @@ void showFlushBarCustom({
     backgroundColor: color,
     message: message,
     duration: Duration(seconds: 3),
-    icon: icon != null ? Icon(
-      icon,
-      color: Colors.white,
-    ) : null,
+    icon: icon != null
+        ? Icon(
+            icon,
+            color: Colors.white,
+          )
+        : null,
   )..show(context);
 }

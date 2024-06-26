@@ -22,17 +22,17 @@ class _PopularproductsState extends State<Popularproducts> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        homeviewmodel.isLoading?
-        Center(
-          child: showLoadingSpin(),
-        ):
-        Padding(
-          padding: const EdgeInsets.only(left: 20, bottom: 10),
-          child: Text(
-            'Popular products',
-            style: authText(20, blackColor, FontWeight.w600),
-          ),
-        ),
+        homeviewmodel.isLoading
+            ? Center(
+                child: showLoadingSpin(),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                child: Text(
+                  'Popular products',
+                  style: authText(20, blackColor, FontWeight.w600),
+                ),
+              ),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: GridView.builder(
@@ -48,8 +48,12 @@ class _PopularproductsState extends State<Popularproducts> {
             itemBuilder: (context, index) {
               var items = homeviewmodel.allproducts[index];
               return InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetialsView(id: items.id ?? 0)));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetialsView(id: items.id ?? 0)));
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -76,48 +80,53 @@ class _PopularproductsState extends State<Popularproducts> {
                         ),
                         child: items.partImage != null
                             ? ClipRRect(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(14),topRight: Radius.circular(14)),
-                              child: Image.network(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(14),
+                                    topRight: Radius.circular(14)),
+                                child: Image.network(
                                   items.partImage ?? "",
                                   fit: BoxFit.cover,
                                 ),
-                            )
+                              )
                             : Image.asset(
                                 'bike2.png'.ImagePath,
                                 fit: BoxFit.cover,
                               ),
                       ),
                       Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 10,),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        items.partsName ?? "MRF Prethew",
-                        style: getFonts(13, Colors.black, FontWeight.w600),
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 10,
+                        ),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              items.partsName ?? "MRF Prethew",
+                              style:
+                                  getFonts(13, Colors.black, FontWeight.w600),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10,top: 10),
-                  child: RatingBarIndicator(
-    rating: double.parse(items.rating ?? "0.0"),
-    itemBuilder: (context, index) => Icon(
-         Icons.star,
-         color: Colors.amber,
-    ),
-    itemCount: 5,
-    itemSize: 15.0,
-    direction: Axis.horizontal,
-)
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10,top: 10),
-                  child: Text("₹ ${items.price}"),
-                )
+                      Padding(
+                          padding: const EdgeInsets.only(left: 10, top: 10),
+                          child: RatingBarIndicator(
+                            rating: double.parse(items.rating ?? "0.0"),
+                            itemBuilder: (context, index) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            itemCount: 5,
+                            itemSize: 15.0,
+                            direction: Axis.horizontal,
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10),
+                        child: Text("₹ ${items.price}"),
+                      )
                     ],
                   ),
                 ),
@@ -125,7 +134,9 @@ class _PopularproductsState extends State<Popularproducts> {
             },
           ),
         ),
-        SizedBox(height: 30,)
+        SizedBox(
+          height: 30,
+        )
       ],
     );
   }
