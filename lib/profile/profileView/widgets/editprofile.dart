@@ -7,6 +7,7 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
+import 'package:spareproject/sharedPrefrences/sharedPreferences.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -17,6 +18,8 @@ class Editprofile extends StatefulWidget {
 
 final ImagePicker _imagePicker = ImagePicker();
 File? _image;
+String? token;
+int? id;
 
 class _EditprofileState extends State<Editprofile> {
   Future<void> pickImage() async {
@@ -31,7 +34,6 @@ class _EditprofileState extends State<Editprofile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final proviewmodel = Provider.of<ProVieModel>(context, listen: false);
     proviewmodel.getProfil();
@@ -50,7 +52,7 @@ class _EditprofileState extends State<Editprofile> {
         backgroundColor: whiteColor,
         title: Text(
           'Edit Profile',
-          style: authText(24, blackColor, FontWeight.bold),
+          style: authText(16, blackColor, FontWeight.bold),
         ),
       ),
       backgroundColor: whiteColor,
@@ -64,20 +66,26 @@ class _EditprofileState extends State<Editprofile> {
                     height: 110,
                     child: Stack(children: [
                       CircleAvatar(
-                        maxRadius: 45,
-                        backgroundImage: _image == null
-                            ? AssetImage('cars.jpg'
-                                .ImagePath) // Adjust the asset path accordingly
-                            : FileImage(_image!),
+                        maxRadius: 55,
+                        backgroundImage: _image == null &&
+                                proViewmodel.profileList?.profileImage == null
+                            ? AssetImage('profile.png'.ImagePath)
+                            : _image == null &&
+                                    proViewmodel.profileList?.profileImage !=
+                                        null
+                                ? NetworkImage(
+                                    proViewmodel.profileList?.profileImage ??
+                                        "")
+                                : FileImage(_image!),
                       ),
                       Positioned(
-                          bottom: 10,
+                          bottom: 5,
                           right: 0,
                           child: IconButton(
                               onPressed: pickImage,
                               icon: Icon(
                                 Icons.add_a_photo,
-                                color: buttonColor,
+                                color: blackColor,
                               )))
                     ])),
               ),
@@ -94,7 +102,7 @@ class _EditprofileState extends State<Editprofile> {
                   controller: proViewmodel.namecontroller,
                   decoration: InputDecoration(
                       label: Text(
-                        proViewmodel.profileList?.name ?? '',
+                        'Name',
                         style: authText(14, Colors.black, FontWeight.w300),
                       ),
                       border: OutlineInputBorder(
@@ -113,6 +121,7 @@ class _EditprofileState extends State<Editprofile> {
                 child: TextField(
                   controller: proViewmodel.emailcontroller,
                   decoration: InputDecoration(
+                      label: Text("Email"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6))),
                 ),
@@ -133,6 +142,7 @@ class _EditprofileState extends State<Editprofile> {
                   maxLines: 7,
                   controller: proViewmodel.adresscontroller,
                   decoration: InputDecoration(
+                    label: Text("Address"),
                     hintText: proViewmodel.profileList?.addressLine ?? '',
                     hintStyle: authText(16, blackColor, FontWeight.w500),
                     border: OutlineInputBorder(
@@ -142,16 +152,21 @@ class _EditprofileState extends State<Editprofile> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Center(
                 child: InkWell(
                   onTap: () {
-                    proViewmodel.editProfile(
-                        context: context,
-                        name: proViewmodel.namecontroller.text,
-                        email: proViewmodel.emailcontroller.text,
-                        adress: proViewmodel.adresscontroller.text);
+                    if (token != null && id != null) {
+                      proViewmodel.editProfile(
+                          profileImage: _image,
+                          context: context,
+                          name: proViewmodel.namecontroller.text,
+                          email: proViewmodel.emailcontroller.text,
+                          adress: proViewmodel.adresscontroller.text);
+                    } else {
+                      checkIdandToken(context);
+                    }
                   },
                   child: Container(
                     height: size.height * 0.056,
@@ -163,8 +178,7 @@ class _EditprofileState extends State<Editprofile> {
                     child: Center(
                       child: Text(
                         'Save Changes',
-                        style: authText(
-                            size.width * 0.035, whiteColor, FontWeight.w600),
+                        style: authText(14, whiteColor, FontWeight.bold),
                       ),
                     ),
                   ),

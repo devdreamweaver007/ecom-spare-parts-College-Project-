@@ -12,6 +12,7 @@ class Authrepo {
       required String password,
       required String confirmpassword}) async {
     try {
+      EasyLoading.show();
       var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       var data = {
         'name': name,
@@ -30,18 +31,21 @@ class Authrepo {
       );
 
       if (response.statusCode == 200) {
-        print(json.encode(response.data));
+        EasyLoading.dismiss();
         return RegisterResponseModel.fromJson(response.data);
       } else {
+        EasyLoading.dismiss();
         print(response.statusMessage);
       }
     } catch (e) {
+    EasyLoading.dismiss();
       print('this is your error: <<<$e');
     }
   }
 
   Future<RegisterResponseModel?> verifyOtp(
       {required String email, required String otp}) async {
+                EasyLoading.show();
     try {
       var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       var data = {'email': email, 'otp': otp};
@@ -56,12 +60,15 @@ class Authrepo {
       );
 
       if (response.statusCode == 200) {
+        EasyLoading.dismiss();
         print(json.encode(response.data));
         return RegisterResponseModel.fromJson(response.data);
       } else {
+        EasyLoading.dismiss();
         print(response.statusMessage);
       }
     } catch (e) {
+      EasyLoading.dismiss();
       print('This is your :$e');
     }
   }

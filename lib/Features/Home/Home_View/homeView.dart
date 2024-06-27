@@ -21,9 +21,11 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    final homeviewmodel = Provider.of<HomeViewModel>(context,listen: false);
+    final homeviewmodel = Provider.of<HomeViewModel>(context, listen: false);
     homeviewmodel.getAllProducts();
+    homeviewmodel.checkTokenandId();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +33,8 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: whiteColor,
           automaticallyImplyLeading: false,
           scrolledUnderElevation: 0,
-          title: searchFieldContainer(
-              homesearchController, 'search Products', Icon(Icons.search),context)),
+          title: searchFieldContainer(homesearchController, 'search Products',
+              Icon(Icons.search), context)),
       backgroundColor: whiteColor,
       body: SingleChildScrollView(
         child: Column(

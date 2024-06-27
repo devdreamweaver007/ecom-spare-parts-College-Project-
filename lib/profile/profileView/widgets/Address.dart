@@ -14,11 +14,13 @@ class AdressView extends StatefulWidget {
 class _AdressViewState extends State<AdressView> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    final proViewModel = Provider.of<ProVieModel>(context, listen: false);
-    proViewModel.adresscontroller.text =
-        proViewModel.profileList?.addressLine ?? '';
+   final proviewmodel = Provider.of<ProVieModel>(context, listen: false);
+    proviewmodel.getProfil();
+    proviewmodel.emailcontroller.text = proviewmodel.profileList?.email ?? "";
+    proviewmodel.namecontroller.text = proviewmodel.profileList?.name ?? "";
+    proviewmodel.adresscontroller.text =
+        proviewmodel.profileList?.addressLine ?? "";
   }
 
   @override
@@ -29,7 +31,7 @@ class _AdressViewState extends State<AdressView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Adress',
+          'Address',
           style: authText(16, blackColor, FontWeight.bold),
         ),
       ),
@@ -44,7 +46,7 @@ class _AdressViewState extends State<AdressView> {
               maxLines: 7,
               controller: proViewModel.adresscontroller,
               decoration: InputDecoration(
-                hintText: proViewModel.profileList?.addressLine ?? '',
+                hintText: 'Enter Your Address',
                 hintStyle: authText(16, blackColor, FontWeight.w500),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -52,6 +54,7 @@ class _AdressViewState extends State<AdressView> {
               ),
             ),
           ),
+          SizedBox(height: 50,),
           Center(
             child: InkWell(
               onTap: () {
@@ -70,9 +73,9 @@ class _AdressViewState extends State<AdressView> {
                 ),
                 child: Center(
                   child: Text(
-                    'Save Changes',
+                    'Save',
                     style: authText(
-                        size.width * 0.035, whiteColor, FontWeight.w600),
+                        16, whiteColor, FontWeight.bold),
                   ),
                 ),
               ),

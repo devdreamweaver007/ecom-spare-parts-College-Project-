@@ -168,6 +168,8 @@ class _SignUpViewState extends State<SignUpView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please Confirm Your Pasword';
+                        }else if(value != passwordController.text){
+                          return "Password Must be Same";
                         }
                       },
                       controller: confirmController,

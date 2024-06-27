@@ -16,7 +16,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   TextEditingController loginController = TextEditingController();
   TextEditingController passController = TextEditingController();
-  bool obscureText = false;
+  bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -106,8 +106,8 @@ class _LoginViewState extends State<LoginView> {
                         });
                       },
                       icon: Icon(obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off),
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                       color: whiteColor,
                     ),
                     label: Text(

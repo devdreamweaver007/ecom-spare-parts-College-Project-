@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/flush_custom.dart';
 import 'package:spareproject/Features/Cart/Model/view_cart_response_model.dart';
@@ -9,12 +10,12 @@ class CartViewModel extends ChangeNotifier {
   CartResponseModel? cartItems;
   dynamic price;
 
-  getAllcarts () async {
-    await cartRepo.viewcart().then((value){
-    if(value?.message !=null){
-      cartItems = value;
-      price = cartItems?.totalCartPrice ;
-    }
+  getAllcarts() async {
+    await cartRepo.viewcart().then((value) {
+      if (value?.message != null) {
+        cartItems = value;
+        price = cartItems?.totalCartPrice;
+      }
     });
     notifyListeners();
   }
@@ -25,16 +26,29 @@ class CartViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  deletecart(int cartId,BuildContext context) async{
-    await cartRepo.deletecart(cartId).then((value){
-      if(value?.status == true){
-        showFlushBarCustom(context: context, color: buttonColor, message: "Cart Deleted Success");
+  deletecart(int cartId, BuildContext context) async {
+    await cartRepo.deletecart(cartId).then((value) {
+      if (value?.status == true) {
+        showFlushBarCustom(
+            context: context,
+            color: buttonColor,
+            message: "Cart Deleted Success");
         getAllcarts();
-      }else{
-        showFlushBarCustom(context: context, color: Colors.red, message: "Something Went Wrong");
+      } else {
+        showFlushBarCustom(
+            context: context,
+            color: Colors.red,
+            message: "Something Went Wrong");
         getAllcarts();
       }
     });
+    notifyListeners();
+  }
+
+  checkTokenandId() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int? id = pref.getInt('userId');
+    String? token = pref.getString('token');
     notifyListeners();
   }
 }
