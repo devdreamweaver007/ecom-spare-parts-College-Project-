@@ -1,12 +1,16 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
+import 'package:spareproject/Constents/popup.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/Features/Cart/view/cart_screen.dart';
 import 'package:spareproject/Features/checkout/view/orders_view.dart';
 import 'package:spareproject/profile/profileView/widgets/Address.dart';
 import 'package:spareproject/profile/profileView/widgets/editprofile.dart';
+import 'package:spareproject/profile/profileView/widgets/faq_screen.dart';
 import 'package:spareproject/profile/profileView/widgets/logout_popup.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
 import 'package:spareproject/sharedPrefrences/sharedPreferences.dart';
@@ -36,9 +40,21 @@ List<dynamic> profileitemIcon = [
 ];
 
 class _ProfileviewState extends State<Profileview> {
+  String? token;
+  int? id;
+
+  Future<void> checkLogin(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    id = prefs.getInt('userId');
+    if (token == null && id == null) {
+      notLoginPopup(context);
+    }
+  }
   @override
   void initState() {
     super.initState();
+    checkLogin(context);
     final proviewModel = Provider.of<ProVieModel>(context, listen: false);
     proviewModel.getProfil();
   }
@@ -64,25 +80,27 @@ class _ProfileviewState extends State<Profileview> {
               SizedBox(
                 height: 15,
               ),
-              CircleAvatar(
-                radius: 60,
-                backgroundColor: authColor,
+              FadeInDown(
                 child: CircleAvatar(
-                  radius: 55,
-                  child: ClipOval(
-                    child: proviewModel.profileList?.profileImage != null
-                        ? Image.network(
-                            proviewModel.profileList?.profileImage ?? "",
-                            fit: BoxFit.cover,
-                            width: 110,
-                            height: 110,
-                          )
-                        : Image.asset(
-                            'profile.png'.ImagePath,
-                            fit: BoxFit.cover,
-                            width: 110,
-                            height: 110,
-                          ),
+                  radius: 60,
+                  backgroundColor: authColor,
+                  child: CircleAvatar(
+                    radius: 55,
+                    child: ClipOval(
+                      child: proviewModel.profileList?.profileImage != null
+                          ? Image.network(
+                              proviewModel.profileList?.profileImage ?? "",
+                              fit: BoxFit.cover,
+                              width: 110,
+                              height: 110,
+                            )
+                          : Image.asset(
+                              'profile.png'.ImagePath,
+                              fit: BoxFit.cover,
+                              width: 110,
+                              height: 110,
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -90,9 +108,11 @@ class _ProfileviewState extends State<Profileview> {
                 height: 10,
               ),
               Center(
-                child: Text(
-                  proviewModel.namecontroller.text ?? "User",
-                  style: getFonts(15, Colors.black, FontWeight.w700),
+                child: FadeInUp(
+                  child: Text(
+                    proviewModel.namecontroller.text ?? "User",
+                    style: getFonts(15, Colors.black, FontWeight.w700),
+                  ),
                 ),
               ),
               SizedBox(
@@ -123,6 +143,10 @@ class _ProfileviewState extends State<Profileview> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           onTap: () {
+                            if (id== null && token ==null)
+                            {
+                              notLoginPopup(context);
+                            }else{
                             switch (index) {
                               case 0:
                                 Navigator.push(
@@ -138,6 +162,8 @@ class _ProfileviewState extends State<Profileview> {
                                       builder: (context) => AdressView(),
                                     ));
                                 break;
+                                case 4:
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> FaqScreen()));
                               case 5:
                                 logoutPopUp(context, () {
                                   removeToken(context: context);
@@ -156,11 +182,15 @@ class _ProfileviewState extends State<Profileview> {
                                     MaterialPageRoute(
                                         builder: (context) => CartScreen()));
                             }
+                            }
                           },
-                          leading: Icon(
-                            profileitemIcon[index],
-                            size: 25,
-                            color: blackColor,
+                          leading: CircleAvatar(
+                            backgroundColor: buttonColor,
+                            child: Icon(
+                              profileitemIcon[index],
+                              size: 25,
+                              color: whiteColor,
+                            ),
                           ),
                           title: Text(
                             profileitemName[index],

@@ -86,7 +86,6 @@ class Authrepo {
         ),
         data: data,
       );
-
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Login Success");

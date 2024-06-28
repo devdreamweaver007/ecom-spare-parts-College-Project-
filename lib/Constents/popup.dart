@@ -11,22 +11,15 @@ notLoginPopup(
     builder: (context) {
       return AlertDialog(
         title: Text(
-          "To Get More Details Login ",
-          style: getFonts(16, Colors.black, FontWeight.w700),
+          "Please Login ! ",
+          style: getFonts(17, Colors.red, FontWeight.w700),
         ),
         content: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 70,
-                width: 70,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 12,
-              ),
+              SizedBox(height: 20,),
+              Text("To Continue Purchasing You Must need to Login",style: getFonts(15, Colors.black, FontWeight.w600),),
+              SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -35,41 +28,36 @@ notLoginPopup(
                       Navigator.of(context).pop();
                     },
                     child: Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      height: 30,
-                      width: 120,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: buttonColor,
+                        color: Colors.red,
                       ),
-                      child: Center(
-                          child: Text(
-                        "Cancel",
-                        style: getFonts(15, whiteColor, FontWeight.bold),
-                      )),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        child: Text(
+                                                "Cancel",
+                                                style: getFonts(15, whiteColor, FontWeight.bold),
+                                              ),
+                      ),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginView(),
-                          ));
+                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+builder: (context) => LoginView()), (Route route)=>false);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      height: 30,
-                      width: 120,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: buttonColor,
                       ),
-                      child: Center(
-                          child: Text(
-                        "Login",
-                        style: getFonts(15, whiteColor, FontWeight.bold),
-                      )),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        child: Text(
+                                                "Login",
+                                                style: getFonts(15, whiteColor, FontWeight.bold),
+                                              ),
+                      ),
                     ),
                   ),
                 ],

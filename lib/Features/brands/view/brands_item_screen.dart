@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spareproject/Constents/colors.dart';
@@ -82,79 +83,91 @@ class _BrandItemsScreenState extends State<BrandItemsScreen> {
                                               ProductDetialsView(
                                                   id: items.id ?? 0)));
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14),
-                                    color: whiteColor,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 6,
-                                        color: Colors.grey,
-                                        spreadRadius: .2,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                .35,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(14),
-                                              topRight: Radius.circular(14)),
-                                        ),
-                                        child: items.partImage != null
-                                            ? ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(14),
-                                                    topRight:
-                                                        Radius.circular(14)),
-                                                child: Image.network(
-                                                  items.partImage ?? "",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              )
-                                            : Image.asset(
-                                                'bike2.png'.ImagePath,
-                                                fit: BoxFit.cover,
+                                child: FadeInUpBig(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: whiteColor,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 6,
+                                          color: Colors.grey,
+                                          spreadRadius: .2,
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+  height: MediaQuery.of(context).size.width * .35,
+  width: MediaQuery.of(context).size.width,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(14),
+        topRight: Radius.circular(14)),
+  ),
+  child: items.partImage != null
+      ? ClipRRect(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(14),
+              topRight: Radius.circular(14)),
+          child: Image.network(
+            items.partImage ?? "",
+            fit: BoxFit.cover,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Image.asset(
+                'Velo.png'.ImagePath,
+                fit: BoxFit.cover,
+              );
+            },
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              return Image.asset(
+               'Velo.png'.ImagePath,
+                fit: BoxFit.cover,
+              );
+            },
+          ),
+        )
+      : Image.asset(
+          'Velo.png'.ImagePath,
+          fit: BoxFit.cover,
+        ),
+),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 10),
+                                          child: SizedBox(
+                                            width:
+                                                MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Text(
+                                                items.partsName ?? "MRF Prethew",
+                                                style: getFonts(13, Colors.black,
+                                                    FontWeight.w600),
                                               ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            top: 10,
-                                            bottom: 10),
-                                        child: SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Text(
-                                              items.partsName ?? "MRF Prethew",
-                                              style: getFonts(13, Colors.black,
-                                                  FontWeight.w600),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text("₹ ${items.price}"),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text("₹ ${items.price}"),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

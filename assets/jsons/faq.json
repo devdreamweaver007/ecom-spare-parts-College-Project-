@@ -1,0 +1,18 @@
+{
+    "items": [
+      {"title": "why iam not able to upload my certificate", "description": "Once you or the admin upload a certificate and it is verified, you will not be able to upload the certificate again. You can see on the screen whether it is validated or not. If you want to change the certificate, please kindly contact the admin."},
+      {"title": "How can i upload my certificate", "description": "You can upload your certificate by tapping on the subtrainings. You must be able to upload the certificate for the selected subtraining."},
+      {"title": "Overall training percentage is not showing, why ?", "description": "You can see this only when your account is accepted and you have assigned subtrainings."},
+      {"title": "How can i change Profile Picture ?", "description": "You can change it by clicking on the profile (can select image from your device)"},
+      {"title": "How to reset password ?", "description": "If you want to change your password you must need to requiest the Admin."},
+      {"title": "How can i change username ?", "description": "As a user you aren't able to change the username"},
+      {"title": "What should i do if i dont see any assigned works ?", "description": "Close the app and clear data then re login.(if admin/receptionist is alredy assigned work for you)"},
+      {"title": "How to inform  admin that iam working or not?", "description": "Once your account was approved by admin you can simply switch to on duty and off duty button below the profile picture"},
+      {"title": "Why Loading take too much time ?", "description": "It's because of your internet or heavy traffic issue in server.So please double check your internet is working fine."},
+      {
+        "title": "How do I access training materials?",
+        "description": "You can access training materials by navigating to the 'Training' section and selecting the relevant materials for your assigned subtrainings. The main trainings are located below the profile."
+      }
+    ]
+  }
+  

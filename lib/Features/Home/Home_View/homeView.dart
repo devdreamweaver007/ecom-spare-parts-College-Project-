@@ -26,7 +26,16 @@ class _HomeViewState extends State<HomeView> {
     homeviewmodel.checkTokenandId();
   }
 
-  @override
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+    final homeviewmodel = Provider.of<HomeViewModel>(context, listen: false);
+    homeviewmodel.getAllProducts();
+    homeviewmodel.checkTokenandId();
+    });
+  }
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -36,24 +45,30 @@ class _HomeViewState extends State<HomeView> {
           title: searchFieldContainer(homesearchController, 'search Products',
               Icon(Icons.search), context)),
       backgroundColor: whiteColor,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            CarousilSliderr(),
-            GridHead(),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: TopCatogiries(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Popularproducts()
-          ],
+      body: RefreshIndicator(
+        backgroundColor: buttonColor,
+        color: whiteColor,
+         onRefresh: _refresh,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              CarousilSliderr(),
+              GridHead(),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: TopCatogiries(),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Popularproducts()
+            ],
+          ),
         ),
       ),
     );

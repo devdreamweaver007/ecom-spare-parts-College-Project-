@@ -46,8 +46,8 @@ class _AdressViewState extends State<AdressView> {
               maxLines: 7,
               controller: proViewModel.adresscontroller,
               decoration: InputDecoration(
-                hintText: 'Enter Your Address',
-                hintStyle: authText(16, blackColor, FontWeight.w500),
+                hintText: 'Enter Your Address\n eg :- Yourname \n your address(house name etc) \n post \n pin \n Landmark.etc ',
+                hintStyle: authText(16, Colors.grey, FontWeight.w500),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
