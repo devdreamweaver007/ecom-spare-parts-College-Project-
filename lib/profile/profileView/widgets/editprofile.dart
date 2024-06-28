@@ -7,7 +7,6 @@ import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/profile/profileViewModel/proViewModel.dart';
-import 'package:spareproject/sharedPrefrences/sharedPreferences.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -143,8 +142,8 @@ class _EditprofileState extends State<Editprofile> {
                   controller: proViewmodel.adresscontroller,
                   decoration: InputDecoration(
                     label: Text("Address"),
-                    hintText: proViewmodel.profileList?.addressLine ?? '',
-                    hintStyle: authText(16, blackColor, FontWeight.w500),
+                    hintText: 'Enter Your Address\n eg :- Yourname \n your address(house name etc) \n post \n pin \n Landmark.etc ',
+                    hintStyle: authText(16, Colors.grey, FontWeight.w500),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -157,16 +156,12 @@ class _EditprofileState extends State<Editprofile> {
               Center(
                 child: InkWell(
                   onTap: () {
-                    if (token != null && id != null) {
-                      proViewmodel.editProfile(
+                   proViewmodel.editProfile(
                           profileImage: _image,
                           context: context,
                           name: proViewmodel.namecontroller.text,
                           email: proViewmodel.emailcontroller.text,
                           adress: proViewmodel.adresscontroller.text);
-                    } else {
-                      checkIdandToken(context);
-                    }
                   },
                   child: Container(
                     height: size.height * 0.056,

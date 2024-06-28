@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spareproject/Constents/colors.dart';
@@ -32,6 +33,21 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+     final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+    cartViewModel.getAllcarts();
+    print(cartViewModel.cartItems?.cartItems?.length);
+    Timer(Duration(seconds: 2), () {
+      setState(() {
+        loading = false;
+        cartViewModel.getAllcarts();
+      });
+    });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartViewModel = Provider.of<CartViewModel>(context);
@@ -45,192 +61,200 @@ class _CartScreenState extends State<CartScreen> {
             style: getFonts(25, Colors.black, FontWeight.w600),
           ),
         ),
-        body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: cartViewModel.cartItems?.cartItems == null && loading == true
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 400),
-                  child: Center(
-                    child: showLoadingSpin(),
-                  ),
-                )
-              : cartViewModel.cartItems?.totalCartPrice == 0 && loading == false
-                  ? Center(
-                      child: Image.asset('noProducts.jpg'.ImagePath),
-                    )
-                  : Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              var cart =
-                                  cartViewModel.cartItems?.cartItems?[index];
-                              int quantity = cart?.quantity ?? 0;
-                              dynamic prices =
-                                  double.parse(cart?.part?.price ?? "0") *
-                                      quantity;
-                              void updateQuantity(int quantity) {
-                                setState(() {
-                                  cart?.quantity = quantity;
-                                  print(prices);
-                                });
-                              }
-
-                              return Stack(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: 20, right: 20, top: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: whiteColor,
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color: Colors.grey,
-                                              spreadRadius: .5,
-                                              blurRadius: 2)
-                                        ]),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 20,
-                                          bottom: 20,
-                                          left: 16,
-                                          right: 16),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                              height: 70,
-                                              width: 70,
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.network(
-                                                    cart?.part?.partImage ?? "",
-                                                    fit: BoxFit.fill,
-                                                  ))),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                .1,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+        body: RefreshIndicator(
+          backgroundColor: buttonColor,
+          color: whiteColor,
+          onRefresh: _refresh,
+          child: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: cartViewModel.cartItems?.cartItems == null && loading == true
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 200),
+                    child: Center(
+                      child: showLoadingSpin(),
+                    ),
+                  )
+                : cartViewModel.price == null  || cartViewModel.price ==0 && loading == false
+                    ? Center(
+                        child: Image.asset('noProducts.jpg'.ImagePath),
+                      )
+                    : Column(
+                        children: [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                var cart =
+                                    cartViewModel.cartItems?.cartItems?[index];
+                                int quantity = cart?.quantity ?? 0;
+                                dynamic prices =
+                                    double.parse(cart?.part?.price ?? "0") *
+                                        quantity;
+                                void updateQuantity(int quantity) {
+                                  setState(() {
+                                    cart?.quantity = quantity;
+                                    print(prices);
+                                  });
+                                }
+          
+                                return FadeInRight(
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 20, right: 20, top: 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            color: whiteColor,
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: Colors.grey,
+                                                  spreadRadius: .5,
+                                                  blurRadius: 2)
+                                            ]),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 20,
+                                              bottom: 20,
+                                              left: 16,
+                                              right: 16),
+                                          child: Row(
                                             children: [
                                               SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .3,
-                                                  height: 17,
-                                                  child: SingleChildScrollView(
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      child: Text(
-                                                        cart?.part?.partsName ??
-                                                            "MRF PRETHEW",
-                                                        style: getFonts(
-                                                            12,
-                                                            Colors.black,
-                                                            FontWeight.w500),
+                                                  height: 70,
+                                                  width: 70,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(10),
+                                                      child: Image.network(
+                                                        cart?.part?.partImage ?? "",
+                                                        fit: BoxFit.fill,
                                                       ))),
                                               SizedBox(
-                                                height: 8,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .1,
                                               ),
-                                              Text("₹ ${prices}"),
-                                              Text(
-                                                  "Qty : ${cart?.quantity ?? 0}")
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                      width: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          .3,
+                                                      height: 17,
+                                                      child: SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          child: Text(
+                                                            cart?.part?.partsName ??
+                                                                "MRF PRETHEW",
+                                                            style: getFonts(
+                                                                12,
+                                                                Colors.black,
+                                                                FontWeight.w500),
+                                                          ))),
+                                                  SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  Text("₹ ${prices}"),
+                                                  Text(
+                                                      "Qty : ${cart?.quantity ?? 0}")
+                                                ],
+                                              ),
+                                              Spacer(),
+                                              customAddButton(
+                                                  icons1: Icon(
+                                                    Icons.add,
+                                                    color: Colors.white,
+                                                  ),
+                                                  ontapplus: () {
+                                                    setState(() {
+                                                      if (quantity < 5) {
+                                                        quantity++;
+                                                        updateQuantity(quantity);
+                                                        cartViewModel.updatecart(
+                                                            quantity,
+                                                            cart?.id ?? 0);
+                                                      }
+                                                    });
+                                                  },
+                                                  text: (quantity).toString(),
+                                                  icons2: Icon(
+                                                    Icons.remove,
+                                                    color: Colors.white,
+                                                  ),
+                                                  ontapminus: () {
+                                                    setState(() {
+                                                      if (quantity > 1) {
+                                                        quantity--;
+                                                        updateQuantity(quantity);
+                                                        cartViewModel.updatecart(
+                                                            quantity,
+                                                            cart?.id ?? 0);
+                                                      }
+                                                    });
+                                                  })
                                             ],
                                           ),
-                                          Spacer(),
-                                          customAddButton(
-                                              icons1: Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              ),
-                                              ontapplus: () {
-                                                setState(() {
-                                                  if (quantity < 5) {
-                                                    quantity++;
-                                                    updateQuantity(quantity);
-                                                    cartViewModel.updatecart(
-                                                        quantity,
-                                                        cart?.id ?? 0);
-                                                  }
-                                                });
-                                              },
-                                              text: (quantity).toString(),
-                                              icons2: Icon(
-                                                Icons.remove,
-                                                color: Colors.white,
-                                              ),
-                                              ontapminus: () {
-                                                setState(() {
-                                                  if (quantity > 1) {
-                                                    quantity--;
-                                                    updateQuantity(quantity);
-                                                    cartViewModel.updatecart(
-                                                        quantity,
-                                                        cart?.id ?? 0);
-                                                  }
-                                                });
-                                              })
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                      top: MediaQuery.of(context).size.width *
-                                          .01,
-                                      right: MediaQuery.of(context).size.width *
-                                          .04,
-                                      child: InkWell(
-                                        onTap: () {
-                                          showPopUp(
-                                              context,
-                                              cart?.part?.partImage ?? "",
-                                              cart?.part?.partsName ?? "",
-                                              prices.toString(), () {
-                                            Navigator.pop(context);
-                                            cartViewModel.deletecart(
-                                                cart?.id ?? 0, context);
-                                          });
-                                        },
-                                        child: CircleAvatar(
-                                          maxRadius: 10,
-                                          backgroundColor: Colors.red,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: whiteColor,
-                                            size: 10,
-                                          ),
                                         ),
-                                      )),
-                                ],
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: 12,
-                              );
-                            },
-                            itemCount:
-                                cartViewModel.cartItems?.cartItems?.length ??
-                                    0),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width * .4,
-                        )
-                      ],
-                    ),
+                                      ),
+                                      Positioned(
+                                          top: MediaQuery.of(context).size.width *
+                                              .01,
+                                          right: MediaQuery.of(context).size.width *
+                                              .04,
+                                          child: InkWell(
+                                            onTap: () {
+                                              showPopUp(
+                                                  context,
+                                                  cart?.part?.partImage ?? "",
+                                                  cart?.part?.partsName ?? "",
+                                                  prices.toString(), () {
+                                                Navigator.pop(context);
+                                                cartViewModel.deletecart(
+                                                    cart?.id ?? 0, context);
+                                              });
+                                            },
+                                            child: CircleAvatar(
+                                              maxRadius: 10,
+                                              backgroundColor: Colors.red,
+                                              child: Icon(
+                                                Icons.close,
+                                                color: whiteColor,
+                                                size: 10,
+                                              ),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 12,
+                                );
+                              },
+                              itemCount:
+                                  cartViewModel.cartItems?.cartItems?.length ??
+                                      0),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * .4,
+                          )
+                        ],
+                      ),
+          ),
         ),
-        bottomSheet: cartViewModel.cartItems?.totalCartPrice != 0 &&
-                loading == false
-            ? Container(
+        bottomSheet:
+              cartViewModel.price == null || cartViewModel.price ==0 ?
+                SizedBox():
+                 Container(
                 height: MediaQuery.of(context).size.width * .2,
                 decoration: BoxDecoration(color: whiteColor, boxShadow: [
                   BoxShadow(
@@ -277,7 +301,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               )
-            : null);
+          );
   }
 }
 

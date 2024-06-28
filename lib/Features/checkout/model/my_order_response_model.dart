@@ -31,7 +31,7 @@ class Orders {
   int? quantity;
   String? totalPrice;
   String? orderedAt;
-  String? status;
+  String? currentStatus;
 
   Orders(
       {this.id,
@@ -40,7 +40,7 @@ class Orders {
       this.quantity,
       this.totalPrice,
       this.orderedAt,
-      this.status});
+      this.currentStatus});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -49,7 +49,7 @@ class Orders {
     quantity = json['quantity'];
     totalPrice = json['total_price'];
     orderedAt = json['ordered_at'];
-    status = json['status'];
+    currentStatus = json['current_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,7 +62,7 @@ class Orders {
     data['quantity'] = this.quantity;
     data['total_price'] = this.totalPrice;
     data['ordered_at'] = this.orderedAt;
-    data['status'] = this.status;
+    data['current_status'] = this.currentStatus;
     return data;
   }
 }
@@ -74,7 +74,7 @@ class Part {
   int? vBrand;
   int? vCategory;
   String? price;
-  String? partsName;
+  dynamic partsName;
   String? description;
   dynamic offerPrice;
   bool? isOffer;

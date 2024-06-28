@@ -20,3 +20,8 @@ TextStyle otpFont(double fontsize, Color color, FontWeight fontweight) {
   return GoogleFonts.lexend(
       fontWeight: fontweight, fontSize: fontsize, color: color);
 }
+
+TextStyle segmentFont(double fontsize, FontWeight fontweight) {
+  return GoogleFonts.poppins(
+      fontWeight: fontweight, fontSize: fontsize,);
+}

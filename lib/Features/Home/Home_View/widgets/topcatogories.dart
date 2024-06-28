@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:spareproject/Constents/colors.dart';
 import 'package:spareproject/Constents/font.dart';
@@ -27,7 +28,7 @@ class _TopCatogiriesState extends State<TopCatogiries> {
   Widget build(BuildContext context) {
     return Container(
       height: 152,
-      width: 410,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -66,18 +67,20 @@ class _TopCatogiriesState extends State<TopCatogiries> {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProductsScreen(text: categoryName[index], id: id[index],)));
                           id[index];
                         },
-                        child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-                        child: Image.asset(
-                          cateogoryImages[index],
-                          height: 30,
-                          width: 30,
+                        child: FadeInLeft(
+                          child: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                          child: Image.asset(
+                            cateogoryImages[index],
+                            height: 30,
+                            width: 30,
+                          ),
+                                              ),
                         ),
-                                            ),
                       ),
                     SizedBox(height: 6,),
-                    Text(categoryName[index])
+                    FadeInRight(child: Text(categoryName[index]))
                     ],
                   );
                 },

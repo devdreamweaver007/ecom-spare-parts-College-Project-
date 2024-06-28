@@ -17,9 +17,10 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final addressviewmodel =
         Provider.of<AddressViewModel>(context, listen: false);
     addressviewmodel.getAddress();
@@ -93,7 +94,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               },
                               child: InkWell(
                                 onTap: (){
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> AdressView()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AdressView()));
                                 },
                                 child: Text(
                                  "ADD ADDRESS NOW ->",
