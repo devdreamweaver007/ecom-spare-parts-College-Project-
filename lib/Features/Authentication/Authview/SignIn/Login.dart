@@ -5,6 +5,7 @@ import 'package:spareproject/Constents/font.dart';
 import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/Features/Authentication/AuthViewModel/authViewModel.dart';
 import 'package:spareproject/Features/Authentication/Authview/SignUp/signUpView.dart';
+import 'package:spareproject/Features/Authentication/Authview/forgotPassword/paswordReset.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -127,7 +128,13 @@ class _LoginViewState extends State<LoginView> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordView(),
+                          ));
+                    },
                     child: Text(
                       'Forgot Password?',
                       style: authText(
@@ -141,9 +148,9 @@ class _LoginViewState extends State<LoginView> {
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
                         authViewModel.logIn(
-                          context: context,
-                          email: loginController.text,
-                          password: passController.text);
+                            context: context,
+                            email: loginController.text,
+                            password: passController.text);
                       }
                     },
                     child: Container(

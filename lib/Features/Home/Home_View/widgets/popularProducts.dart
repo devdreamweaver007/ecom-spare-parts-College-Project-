@@ -85,12 +85,12 @@ class _PopularproductsState extends State<Popularproducts> {
                                     topRight: Radius.circular(14)),
                                 child: Image.network(
                                   items.partImage ?? "",
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                 ),
                               )
                             : Image.asset(
                                 'bike2.png'.ImagePath,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                       ),
                       Padding(

@@ -6,6 +6,7 @@ import 'package:spareproject/Features/Authentication/Authview/SignIn/Login.dart'
 notLoginPopup(
   BuildContext context,
 ) {
+  final size = MediaQuery.of(context).size;
   return showDialog(
     context: context,
     builder: (context) {
@@ -37,7 +38,7 @@ notLoginPopup(
                     child: Container(
                       margin: EdgeInsets.only(left: 15, right: 15),
                       height: 30,
-                      width: 120,
+                      width: size.width / 4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: buttonColor,
@@ -60,7 +61,7 @@ notLoginPopup(
                     child: Container(
                       margin: EdgeInsets.only(left: 15, right: 15),
                       height: 30,
-                      width: 120,
+                      width: size.width / 4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: buttonColor,

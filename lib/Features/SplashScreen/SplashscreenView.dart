@@ -19,15 +19,15 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      checkLogin();
+      checkLoginn();
     });
   }
 
-  void checkLogin() async {
+  void checkLoginn() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? token = pref.getString('token');
     int? id = pref.getInt('userId');
-    if (token !=null && id!=null ) {
+    if (token != null && id != null) {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

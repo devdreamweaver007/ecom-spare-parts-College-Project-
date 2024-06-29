@@ -46,7 +46,9 @@ class _HomeViewState extends State<HomeView> {
             CarousilSliderr(),
             GridHead(),
             Padding(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(
+                top: 10,
+              ),
               child: TopCatogiries(),
             ),
             SizedBox(
