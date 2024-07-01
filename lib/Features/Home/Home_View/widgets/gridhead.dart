@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:spareproject/Constents/font.dart';
-import 'package:spareproject/Extention/extension.dart';
 import 'package:spareproject/Features/Home/Home_View/vehicle.dart';
 
 class GridHead extends StatelessWidget {
@@ -50,8 +49,8 @@ class GridHead extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FadeInLeftBig(child: _buildItem('biks.jpg'.ImagePath, 'Bikes Spare parts', 0, context)),
-            FadeInRightBig(child: _buildItem('cars.jpg'.ImagePath, 'Car Spare Parts', 1, context)),
+            FadeInLeftBig(child: _buildItem('assets/Images/biks.jpg', 'Bikes Spare parts', 0, context)),
+            FadeInRightBig(child: _buildItem('assets/Images/cars.jpg', 'Car Spare Parts', 1, context)),
           ],
         ),
       ),
