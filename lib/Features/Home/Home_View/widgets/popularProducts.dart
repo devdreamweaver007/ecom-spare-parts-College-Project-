@@ -121,7 +121,7 @@ class _PopularproductsState extends State<Popularproducts> {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                items.partsName ?? "MRF Prethew",
+                                items.partsName ?? "Name",
                                 style:
                                     getFonts(13, Colors.black, FontWeight.w600),
                               ),
