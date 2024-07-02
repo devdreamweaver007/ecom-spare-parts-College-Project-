@@ -172,7 +172,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               scrollDirection: Axis.horizontal,
                                               child: Text(
                                                 items.partsName ??
-                                                    "MRF Prethew",
+                                                    "Name",
                                                 style: getFonts(
                                                     13,
                                                     Colors.black,
