@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:spareproject/Features/Authentication/AuthResponseModel/forgotemailModel.dart';
 import 'package:spareproject/Features/Authentication/AuthResponseModel/loginResponseModel.dart';
 import 'package:spareproject/Features/Authentication/AuthResponseModel/registerresponseModel.dart';
 
@@ -38,14 +39,14 @@ class Authrepo {
         print(response.statusMessage);
       }
     } catch (e) {
-    EasyLoading.dismiss();
+      EasyLoading.dismiss();
       print('this is your error: <<<$e');
     }
   }
 
   Future<RegisterResponseModel?> verifyOtp(
       {required String email, required String otp}) async {
-                EasyLoading.show();
+    EasyLoading.show();
     try {
       var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       var data = {'email': email, 'otp': otp};
@@ -75,7 +76,7 @@ class Authrepo {
 
   Future<LoginResponseModel?> logIn(
       {required String email, required String password}) async {
-       EasyLoading.show();
+    EasyLoading.show();
     try {
       var data = {'email': email, 'password': password};
       var dio = Dio();
@@ -86,6 +87,7 @@ class Authrepo {
         ),
         data: data,
       );
+
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Login Success");
@@ -97,6 +99,105 @@ class Authrepo {
     } catch (e) {
       EasyLoading.dismiss();
       print('Thisis your error $e');
+    }
+  }
+
+  Future<ForgotEmailModel?> passwordReset({required String email}) async {
+    EasyLoading.show();
+    try {
+      var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      var data = {'email': email};
+      var dio = Dio();
+      var response = await dio.request(
+        'https://prethewram.pythonanywhere.com/api/password-reset/',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('');
+        print(json.encode(response.data));
+        return ForgotEmailModel.fromJson(response.data);
+      } else {
+        EasyLoading.dismiss();
+        print(response.statusMessage);
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      print('This is your error$e');
+    }
+  }
+
+  Future<ForgotEmailModel?> passwordOTP(
+      {required String email, required String otp}) async {
+    EasyLoading.show();
+    try {
+      var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      var data = {'email': email, 'otp': otp};
+      var dio = Dio();
+      var response = await dio.request(
+        'https://prethewram.pythonanywhere.com/api/password-otp/',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('Otp Verified SuccesFully');
+        print(json.encode(response.data));
+        return ForgotEmailModel.fromJson(response.data);
+      } else {
+        EasyLoading.dismiss();
+        print(response.statusMessage);
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+
+      print('This is your error $e');
+    }
+  }
+
+  Future<ForgotEmailModel?> changePassword(
+      {required String email,
+      required String newPassword,
+      required String confirm_new_password}) async {
+    EasyLoading.show();
+    try {
+      var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      var data = {
+        'email': email,
+        'new_password': newPassword,
+        'confirm_new_password': confirm_new_password
+      };
+      var dio = Dio();
+      var response = await dio.request(
+        'https://prethewram.pythonanywhere.com/api/change-password/',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('New password Set Succesfully');
+        print(json.encode(response.data));
+        return ForgotEmailModel.fromJson(response.data);
+      } else {
+        EasyLoading.dismiss();
+        print(response.statusMessage);
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      print('this is your error$e');
     }
   }
 }

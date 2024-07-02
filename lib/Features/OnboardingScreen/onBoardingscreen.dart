@@ -107,10 +107,10 @@ class _OnBoardState extends State<OnBoard> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: mediaQuery.size.width * 0.275,
-                    top: mediaQuery.size.height * 0.01),
+              SizedBox(
+                height: 15,
+              ),
+              Center(
                 child: TextButton(
                     onPressed: () {
                       Navigator.push(
